@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="rollable-die">
+  <template>
+    <style>
+      #the-die {
+        display: table;
+        width: 100px;
+        height: 100px;
+        border: 2px solid #999;
+        background-color: #900;
+        color: #fff;
+      }
+      #die-value {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+      }
+    </style>
+    <div id="the-die" on-click="{{rollDie}}">
+        <span id="die-value">{{value}}</span>
+    </div>
+  </template>
+  <script>
+    // Returns a random integer between min (included) and max (excluded)
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    Polymer('rollable-die', {
+      value: 'click to roll',
+      ready: function() {
+        console.log("rollable-die is ready!");
+      },
+      rollDie: function() {
+        console.log("rolling die!");
+        this.value = getRandomInt(1, 7);
+      }
+    });
+  </script>
+</polymer-element>
