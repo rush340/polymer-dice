@@ -2,22 +2,8 @@
 
 <polymer-element name="rollable-die">
   <template>
-    <style>
-      #the-die {
-        display: table;
-        width: 100px;
-        height: 100px;
-        border: 2px solid #999;
-        background-color: #900;
-        color: #fff;
-      }
-      #die-value {
-        display: table-cell;
-        text-align: center;
-        vertical-align: middle;
-      }
-    </style>
-    <div id="the-die" on-click="{{rollDie}}">
+    <link rel="stylesheet" href="rollable-die.css">
+    <div id="the-die" on-click="{{rollDie}}" style="background-color:{{bgcolor}}">
         <span id="die-value">{{value}}</span>
     </div>
   </template>
@@ -28,13 +14,29 @@
     }
 
     Polymer('rollable-die', {
-      value: 'click to roll',
+      value: '1',
+      bgcolor: '#f67',
       ready: function() {
         console.log("rollable-die is ready!");
       },
       rollDie: function() {
         console.log("rolling die!");
-        this.value = getRandomInt(1, 7);
+        var self = this;
+        self.bgcolor = "#c67"
+        
+        var rollsLeft = 30;
+        var rollInterval = 10;
+        var slowRoll = function() {
+          self.value = getRandomInt(1, 7);
+          if (rollsLeft > 0) {
+            rollsLeft--;
+          } else {
+            self.bgcolor = "#f67";
+            clearInterval(timer);
+          }
+        }
+
+        var timer = setInterval(slowRoll, rollInterval);
       }
     });
   </script>
