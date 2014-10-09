@@ -9,10 +9,12 @@
   border-radius: 10px;
   color: #fff;
   cursor: pointer;
+  margin: 0;
+  padding: 0;
 }
 
-#die-value {
+#die-canvas {
   display: table-cell;
-  text-align: center;
+  margin: auto auto;
   vertical-align: middle;
 }

@@ -4,7 +4,7 @@
   <template>
     <link rel="stylesheet" href="rollable-die.css">
     <div id="the-die" on-click="{{rollDie}}" style="background-color:{{bgcolor}}">
-        <span id="die-value">{{value}}</span>
+        <canvas id="die-canvas" height="100px" width="100px"></canvas>
     </div>
   </template>
   <script>
@@ -14,13 +14,12 @@
     }
 
     Polymer('rollable-die', {
-      value: '6',
+      value: '5',
       bgcolor: '#f67',
       ready: function() {
-        console.log("rollable-die is ready!");
+        this.valueChanged();
       },
       rollDie: function() {
-        console.log("rolling die!");
         var self = this;
         self.bgcolor = "#c67"
         
@@ -37,6 +36,50 @@
         }
 
         var timer = setInterval(slowRoll, rollInterval);
+      },
+      valueChanged: function() {
+        this.drawPips(this.value);
+      },
+      drawPips: function(numPips) {
+        var canvas = this.$["die-canvas"];
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var drawFunc = "draw" + numPips;
+        this[drawFunc](ctx, canvas);
+      },
+      draw1: function(ctx, canvas) {
+        this.drawCircle(ctx, canvas.width / 2, canvas.height / 2, 10);
+      },
+      draw2: function(ctx, canvas) {
+        this.drawCircle(ctx, canvas.width * 0.25, canvas.height * 0.25, 10);
+        this.drawCircle(ctx, canvas.width * 0.75, canvas.height * 0.75, 10);
+      },
+      draw3: function(ctx, canvas) {
+        this.draw1(ctx, canvas);
+        this.draw2(ctx, canvas);
+      },
+      draw4: function(ctx, canvas) {
+        this.draw2(ctx, canvas);
+        this.drawCircle(ctx, canvas.width * 0.75, canvas.height * 0.25, 10);
+        this.drawCircle(ctx, canvas.width * 0.25, canvas.height * 0.75, 10);
+      },
+      draw5: function(ctx, canvas) {
+        this.draw4(ctx, canvas);
+        this.draw1(ctx, canvas);
+      },
+      draw6: function(ctx, canvas) {
+        this.draw4(ctx, canvas);
+        this.drawCircle(ctx, canvas.width * 0.25, canvas.height * 0.5, 10);
+        this.drawCircle(ctx, canvas.width * 0.75, canvas.height * 0.5, 10);
+      },
+      drawCircle: function(ctx, x, y, rad) {
+        ctx.beginPath();
+        ctx.arc(x, y, rad, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#999';
+        ctx.stroke();
       }
     });
   </script>
