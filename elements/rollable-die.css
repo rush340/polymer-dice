@@ -2,7 +2,7 @@
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 50px;
-  display: table;
+  display: inline-table;
   width: 100px;
   height: 100px;
   border: 2px solid #999;
